@@ -1,6 +1,7 @@
 package Arrays.C_Medium.LeadersInArray;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Leaders in an Array
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 
 class Solution {
     // Brute force
-    public ArrayList<Integer> leadersBruteForce(int[] nums) {
+    public ArrayList<Integer> leaders1(int[] nums) {
         ArrayList<Integer> res = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {
@@ -65,6 +66,27 @@ class Solution {
                 res.add(nums[i]);
             }
         }
+
+        return res;
+    }
+
+    public ArrayList<Integer> leaders2(int[] nums) {
+        ArrayList<Integer> res = new ArrayList<>();
+
+        int n = nums.length;
+        int previousLeader = nums[n - 1];
+        res.add(previousLeader);
+
+        for (int i = n - 2; i >= 0; i--) {
+            int currentElement = nums[i];
+
+            if (currentElement > previousLeader) {
+                res.add(currentElement);
+                previousLeader = currentElement;
+            }
+        }
+
+        Collections.reverse(res);
 
         return res;
     }

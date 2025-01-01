@@ -69,14 +69,7 @@ class Solution {
       }
     }
 
-    // Reverse the array
-    let left = 0;
-    let right = n - 1;
-    while (left < right) {
-      [res[left], res[right]] = [res[right], res[left]];
-      left++;
-      right--;
-    }
+    res.reverse();
 
     return res;
   }
