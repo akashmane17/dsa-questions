@@ -32,6 +32,8 @@ import java.util.Set;
  * But we have not used the -1 at index 4 as that would create a duplicate
  * triplet
  * 
+ * -----------------------------------------------------------------------------------
+ * 
  * Brute Force :
  * The most naive idea is to check all possible triplets using 3 loops and among
  * them, consider the ones whose sum is equal to the given target 0.
@@ -53,6 +55,7 @@ import java.util.Set;
  * it in the set data structure. Finally, return the list of triplets stored in
  * the set data structure.
  * 
+ * ----------------------------------------------------------------------------------
  * 
  * Better Solution
  * Intuition:

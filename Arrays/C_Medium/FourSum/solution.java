@@ -28,7 +28,7 @@ import java.util.Set;
  */
 
 public class solution {
-    // function to find quadruplets having sum equal to target
+    // Brute force approach
     public List<List<Integer>> fourSum(int[] nums, int target) {
         // size of the array
         int n = nums.length;
