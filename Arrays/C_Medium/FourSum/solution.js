@@ -48,4 +48,63 @@ class Solution {
     //Return the ans
     return ans;
   }
+
+  // Optimal way
+  fourSum2(nums, target) {
+    // Sort the array to make it easier to avoid duplicates and use two-pointer technique
+    nums.sort((a, b) => a - b);
+
+    // Initialize the result array to store unique quadruplets
+    let result = [];
+
+    // Get the length of the array
+    let n = nums.length;
+
+    // Loop to fix the first number
+    for (let i = 0; i < n - 3; i++) {
+      // Skip duplicate values for the first number
+      if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+      // Loop to fix the second number
+      for (let j = i + 1; j < n - 2; j++) {
+        // Skip duplicate values for the second number
+        if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+
+        // Use two pointers to find the remaining two numbers
+        let left = j + 1;
+        let right = n - 1;
+
+        // Two-pointer approach to find quadruplets
+        while (left < right) {
+          // Calculate the sum of the four numbers
+          let sum = nums[i] + nums[j] + nums[left] + nums[right];
+
+          // If the sum matches the target, add the quadruplet to the result
+          if (sum === target) {
+            result.push([nums[i], nums[j], nums[left], nums[right]]);
+
+            // Move the left pointer to skip duplicate values
+            while (left < right && nums[left] === nums[left + 1]) left++;
+            // Move the right pointer to skip duplicate values
+            while (left < right && nums[right] === nums[right - 1]) right--;
+
+            // Move both pointers to continue searching for other quadruplets
+            left++;
+            right--;
+          }
+          // If the sum is less than the target, move the left pointer to increase the sum
+          else if (sum < target) {
+            left++;
+          }
+          // If the sum is greater than the target, move the right pointer to decrease the sum
+          else {
+            right--;
+          }
+        }
+      }
+    }
+
+    // Return the list of unique quadruplets
+    return result;
+  }
 }
