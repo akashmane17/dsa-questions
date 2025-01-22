@@ -24,57 +24,61 @@ Brute Force: calculate sum of every possible subarray and if sum matches k incre
 */
 
 class Solution1 {
-  subarraySum(nums, k) {
-    let count = 0;
+  longestSubarray(nums, k) {
+    let res = 0;
+    let n = nums.length;
 
-    for (let i = 0; i < nums.length; i++) {
+    for (let i = 0; i < n; i++) {
       let sum = 0;
-      for (let j = i; j < nums.length; j++) {
+      for (let j = i; j < n; j++) {
         sum += nums[j];
+
         if (sum === k) {
-          count = count + 1;
+          let count = j - i + 1;
+          res = Math.max(res, count);
         }
       }
     }
 
-    return count;
+    return res;
   }
 }
 
 /*
 Optimal : Using prefix Sum method
-calculate sum till index i
-calculate (rem) value to remove which is (sum - K)
-check if the map contains the value you calculate (rem) and update count
-update the sum in the map
 */
 class Solution {
-  subarraySum(nums, k) {
-    let count = 0;
+  longestSubarray(nums, k) {
+    const n = nums.length;
 
-    let map = new Map();
+    const preSumMap = new Map();
     let sum = 0;
+    let maxLen = 0;
 
-    // Setting 0 in the map.
-    map.set(0, 1);
-
-    for (let i = 0; i < nums.length; i++) {
-      // Add current element to prefix sum:
+    for (let i = 0; i < n; i++) {
+      // calculate the prefix sum till index i
       sum += nums[i];
 
-      /* Calculate the value to remove
-            (sum - k)*/
-      let rem = sum - k;
+      // if the sum equals k, update maxLen
+      if (sum === k) {
+        maxLen = Math.max(maxLen, i + 1);
+      }
 
-      /* Add the number of subarrays 
-            with the sum to be removed*/
-      count += map.get(rem) || 0;
+      // calculate the sum of remaining part i.e., sum - k
+      const rem = sum - k;
 
-      /* Update the count of current 
-            prefix sum in the map*/
-      map.set(sum, (map.get(sum) || 0) + 1);
+      // calculate the length and update maxLen
+      if (preSumMap.has(rem)) {
+        const len = i - preSumMap.get(rem);
+        maxLen = Math.max(maxLen, len);
+      }
+
+      // update the map if sum is not already present
+      if (!preSumMap.has(sum)) {
+        preSumMap.set(sum, i);
+      }
     }
 
-    return count;
+    return maxLen;
   }
 }

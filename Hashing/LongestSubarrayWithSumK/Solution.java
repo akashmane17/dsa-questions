@@ -25,47 +25,60 @@ import java.util.Map;
 
 class Solution1 {
     // Brute Force Method
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
+    int longestSubarray(int[] nums, int k) {
+        int res = 0;
+        int n = nums.length;
 
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < n; i++) {
             int sum = 0;
-            for (int j = i; j < nums.length; j++) {
+            for (int j = i; j < n; j++) {
                 sum += nums[j];
+
                 if (sum == k) {
-                    count++;
+                    int count = j - i + 1;
+                    res = Math.max(res, count);
                 }
             }
         }
 
-        return count;
+        return res;
     }
 }
 
 class Solution {
     // Optimal Method using Prefix Sum
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
+    public int longestSubarray(int[] nums, int k) {
+        int n = nums.length;
+
+        // Map to store the prefix sums and their first occurrence index
+        Map<Integer, Integer> preSumMap = new HashMap<>();
         int sum = 0;
+        int maxLen = 0;
 
-        // Using HashMap to store prefix sums and their frequencies
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(0, 1); // Initialize the map with sum 0 and frequency 1
+        for (int i = 0; i < n; i++) {
+            // Calculate the prefix sum till index i
+            sum += nums[i];
 
-        for (int num : nums) {
-            // Add current number to the prefix sum
-            sum += num;
+            // If the sum equals k, update maxLen
+            if (sum == k) {
+                maxLen = Math.max(maxLen, i + 1);
+            }
 
-            // Calculate the remainder (sum - k)
+            // Calculate the remaining part (sum - k)
             int rem = sum - k;
 
-            // If the remainder exists in the map, add its frequency to the count
-            count += map.getOrDefault(rem, 0);
+            // Check if the remaining sum exists in the map
+            if (preSumMap.containsKey(rem)) {
+                int len = i - preSumMap.get(rem);
+                maxLen = Math.max(maxLen, len);
+            }
 
-            // Update the frequency of the current prefix sum in the map
-            map.put(sum, map.getOrDefault(sum, 0) + 1);
+            // Add the sum to the map if it's not already present
+            if (!preSumMap.containsKey(sum)) {
+                preSumMap.put(sum, i);
+            }
         }
 
-        return count;
+        return maxLen;
     }
 }
