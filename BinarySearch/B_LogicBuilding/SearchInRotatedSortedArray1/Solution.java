@@ -1,4 +1,4 @@
-package BinarySearch.B_LogicBuilding.SearchInRotatedSortedArray;
+package BinarySearch.B_LogicBuilding.SearchInRotatedSortedArray1;
 
 /*
 Search in rotated sorted array-I
